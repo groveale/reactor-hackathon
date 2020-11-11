@@ -42,24 +42,24 @@ export default class GraphPersona extends React.Component<IGraphPersonaProps, IG
 
     let webUrl = "https://groverale.sharepoint.com/sites/YammerSentiment"
       //let requestUrl = webUrl.concat("/_api/web/Lists/GetByTitle('AllCompany')/ItemCount")   
-    let requestUrl = webUrl.concat("/_api/web/Lists/GetByTitle('AllCompany')/items")
+    //let requestUrl = webUrl.concat("/_api/web/Lists/GetByTitle('AllCompany')/items")
+
+    //Filter by LoginName (i:0#.f|membership|r@tenant-name.onmicrosoft.com)
+    let userToken = `i:0#.f|membership|${this.props.spfxContext.pageContext.user.loginName}`;
+
+    let requestUrl = `${webUrl}/_api/web/Lists/GetByTitle('AllCompany')/items?$filter=PostedBy/Name eq '${encodeURIComponent(userToken)}'`
 
     this.props.spfxContext.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1)  
     .then((response: SPHttpClientResponse) => {  
         if (response.ok) {  
             response.json().then((responseJSON) => {  
                 if (responseJSON!=null && responseJSON.value!=null){  
-        //let itemCount:number = parseInt(responseJSON.value.length.toString());
-        let itemCount:number = 0
+        let itemCount:number = parseInt(responseJSON.value.length.toString());
+        //let itemCount:number = 0
         let totalScore:number = 0
         responseJSON.value.forEach(element => {
-          // m,ake sure we only count for user
-          if (element.PostedById == this.props.spfxContext.pageContext.legacyPageContext["userId"])
-          {
+
             totalScore += element.Score
-            itemCount++
-          }
-         
         });
         
         let sentiment:number = totalScore / itemCount
@@ -67,7 +67,9 @@ export default class GraphPersona extends React.Component<IGraphPersonaProps, IG
         this.setState({ phone: "Sentiment Score: " + sentiment.toString() });
         }  
       });  
-    }  
+    } else {
+      console.log("ERROR in request: ")
+    } 
     });
 
     // this.props.spfxContext.spHttpClient.get(requestUrl, SPHttpClient.configurations.v1)  

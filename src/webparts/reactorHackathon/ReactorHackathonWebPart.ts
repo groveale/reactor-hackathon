@@ -36,17 +36,17 @@ export default class ReactorHackathonWebPart extends BaseClientSideWebPart<IReac
 
 
     this.context.msGraphClientFactory.getClient()
-    .then((client: MSGraphClient): void => {
-      const element: React.ReactElement<IGraphPersonaProps> = React.createElement(
-        GraphPersona,
-        {
-          spfxContext: this.context,
-          graphClient: client
-        }
-      );
+      .then((client: MSGraphClient): void => {
+        const element: React.ReactElement<IGraphPersonaProps> = React.createElement(
+          GraphPersona,
+          {
+            spfxContext: this.context,
+            graphClient: client
+          }
+        );
 
-      ReactDom.render(element, this.domElement);
-    });
+        ReactDom.render(element, this.domElement);
+      });
     
   }
 
