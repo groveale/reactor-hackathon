@@ -23,7 +23,7 @@ export default class GraphPersona extends React.Component<IGraphPersonaProps, IG
     this.state = {
       name: '',
       email: '',
-      phone: '',
+      sentiment: '',
       image: null
     };
   }
@@ -36,7 +36,6 @@ export default class GraphPersona extends React.Component<IGraphPersonaProps, IG
         this.setState({
           name: user.displayName,
           email: user.mail,
-           //phone: user.businessPhones[0]
         });
       });
 
@@ -64,7 +63,7 @@ export default class GraphPersona extends React.Component<IGraphPersonaProps, IG
         
         let sentiment:number = totalScore / itemCount
 
-        this.setState({ phone: "Sentiment Score: " + sentiment.toString() });
+        this.setState({ sentiment: "Sentiment Score: " + sentiment.toString() });
         }  
       });  
     } else {
@@ -107,9 +106,9 @@ export default class GraphPersona extends React.Component<IGraphPersonaProps, IG
     }
   }
 
-  private _renderPhone = () => {
-    if (this.state.phone) {
-      return <p>{this.state.phone}</p>;
+  private _renderSentiment = () => {
+    if (this.state.sentiment) {
+      return <p>{this.state.sentiment}</p>;
     } else {
       return <div />;
     }
@@ -120,8 +119,8 @@ export default class GraphPersona extends React.Component<IGraphPersonaProps, IG
       <Persona primaryText={this.state.name}
               secondaryText={this.state.email}
               onRenderSecondaryText={this._renderMail}
-              tertiaryText={this.state.phone}
-              onRenderTertiaryText={this._renderPhone}
+              tertiaryText={this.state.sentiment}
+              onRenderTertiaryText={this._renderSentiment}
               imageUrl={this.state.image}
               size={PersonaSize.size100} />
     );

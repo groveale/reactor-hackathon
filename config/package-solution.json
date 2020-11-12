@@ -3,7 +3,7 @@
   "solution": {
     "name": "reactor-hackathon-client-side-solution",
     "id": "358caad3-cac2-4e6b-9ac3-497afaa72950",
-    "version": "1.0.0.2",
+    "version": "1.0.0.4",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false
